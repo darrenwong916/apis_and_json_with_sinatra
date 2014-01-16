@@ -19,11 +19,27 @@ post '/result' do
   search_str = params[:movie]
 
   # Make a request to the omdb api here!
+  search = Typhoeus.get("www.omdbapi.com", :params => {:s => "#{search_str}"})
+  grab_hashes = JSON.parse(search.body)
+  temp = grab_hashes["Search"].map { |ele| "#{ele["Title"]}"}
+  # temp1 = temp.map { |ele| "#{ele["Title"]}"}
 
+
+  # grab_files = JSON.parse(search.body).to_s
+  # organize = grab_files.each {|grab| grab["Title"]}
+  # grab_files = organize
 
   # Modify the html output so that a list of movies is provided.
   html_str = "<html><head><title>Movie Search Results</title></head><body><h1>Movie Results</h1>\n<ul>"
-  html_str += "<li>#{search_str}</li></ul></body></html>"
+  html_str += "<li>#{search.body}</li></ul></body></html>"
+  # html_str += "<li> grab_hashes["Search"].each { |ele| "#{ele['Title']}"} </li>"
+
+
+
+organize = search.body { |grab| puts grab["Search"]}
+  
+
+
 
 end
 
